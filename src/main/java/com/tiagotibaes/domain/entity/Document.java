@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
-@ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -25,25 +25,25 @@ public class Document implements Serializable {
     private Integer id;
 
     @NotNull
-    @Column(length = 10, nullable = false)
+    @Column(name ="type_document" ,length = 10, nullable = false)
     @Convert(converter = TypeDocumentConverter.class)
     private TypeDocument typeDocument;
 
-    @Column(name = "description", length = 200)
-    private String description;
+    @NotNull
+    @Column(name = "identification_number")
+    private String identificationNumber;
 
     @Column(name = "included_date")
     private LocalDate includedDate;
 
-    @Column(name = "updateDate")
-    private LocalDate update_Date;
+    @Column(name = "update_Date")
+    private LocalDate updateDate;
 
     //TODO: Inserir impl abaixo após migrar para MySQL
-
     /*
     Relacionamento: Muitos Documentos para um cliente
      */
-//    @ManyToOne
-//    @JoinColumn(name = "client_id")
-//    private Client client;
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
 }

@@ -1,7 +1,9 @@
 CREATE TABLE client(
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100),
-    cpf VARCHAR(11)
+    birth_data TIMESTAMP,
+    included_date TIMESTAMP,
+    update_Date TIMESTAMP
 );
 
 CREATE TABLE product(
@@ -28,8 +30,7 @@ CREATE TABLE demand_items(
 CREATE TABLE document(
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     type_document enum('CPF', 'RG', 'CNH', 'CNPJ') NOT NULL,
-    description VARCHAR(200),
-    data_demand TIMESTAMP,
+    identification_number VARCHAR(20),
     included_date TIMESTAMP,
     update_Date TIMESTAMP,
     client_id INTEGER REFERENCES client (id),

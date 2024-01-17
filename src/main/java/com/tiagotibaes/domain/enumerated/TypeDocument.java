@@ -1,10 +1,10 @@
 package com.tiagotibaes.domain.enumerated;
 
 public enum TypeDocument {
-    CPF("Cadastro de Pessoa Física"),
-    RG("Registro Geral"),
-    CNH("Carteira Nacional de Habilitação"),
-    CNPJ("Cadastro Nacional de Pessoas Jurídicas");
+    CPF("CPF"),
+    RG("RG"),
+    CNH("CNH"),
+    CNPJ("CNPJ");
 
     private String value;
 

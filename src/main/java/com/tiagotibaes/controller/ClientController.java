@@ -1,6 +1,7 @@
 package com.tiagotibaes.controller;
 
 
+import com.tiagotibaes.controller.dto.resquest.ClientRequestDTO;
 import com.tiagotibaes.domain.entity.Client;
 import com.tiagotibaes.service.ClientService;
 
@@ -32,8 +33,8 @@ public class ClientController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Client saveClient(@RequestBody Client client) {
-        return clientService.createClient(client);
+    public Integer saveClient(@RequestBody ClientRequestDTO clientRequestDTO) {
+        return clientService.createClient(clientRequestDTO);
     }
 
     @DeleteMapping("/{id}")

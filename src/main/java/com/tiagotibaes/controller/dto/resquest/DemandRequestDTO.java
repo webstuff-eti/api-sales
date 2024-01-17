@@ -1,5 +1,6 @@
 package com.tiagotibaes.controller.dto.resquest;
 
+import com.tiagotibaes.domain.entity.Document;
 import lombok.*;
 
 import java.math.BigDecimal;
