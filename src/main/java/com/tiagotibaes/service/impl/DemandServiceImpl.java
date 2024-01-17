@@ -1,8 +1,6 @@
 package com.tiagotibaes.service.impl;
 
 
-import com.tiagotibaes.controller.dto.response.DemandItemResponseDTO;
-import com.tiagotibaes.controller.dto.response.DemandResponseDTO;
 import com.tiagotibaes.controller.dto.resquest.DemandItemRequestDTO;
 import com.tiagotibaes.controller.dto.resquest.DemandRequestDTO;
 import com.tiagotibaes.domain.entity.Client;
@@ -53,9 +51,8 @@ public class DemandServiceImpl implements DemandService {
                 .dataDemand(LocalDate.now())
                 .build();
 
-        //TODO: Implementar o cadastro dos itens
         List<DemandItem> demandItems = converterItems(serachDemand, dto.getItems());
-        Demand demandSaved= demandRepository.save(serachDemand);
+        Demand demandSaved = demandRepository.save(serachDemand);
         List<DemandItem> demandItemsSaved = demandItemsRepository.saveAll(demandItems);
         serachDemand.setDemandItems(demandItemsSaved);
 
@@ -63,20 +60,6 @@ public class DemandServiceImpl implements DemandService {
     }
 
 
-    /*
-    "id": 3,
-    "client": {
-        "id": 1,
-        "name": "Tiago Tibaes",
-        "cpf": "04523817905"
-    },
-    "dataDemand": "2024-01-17",
-    "total": 400,
-    "demandItems": [
-     */
-
-
-    //TODO: Implementar método saveItems
     private List<DemandItem> converterItems(Demand demand, List<DemandItemRequestDTO> itemsDTO){
 
         if(itemsDTO.isEmpty()){
@@ -125,7 +108,5 @@ public class DemandServiceImpl implements DemandService {
     public List<Demand> findListDemandsByFilter(DemandRequestDTO demandRequestDTO) {
         return null;
     }
-
-
 
 }
