@@ -1,6 +1,7 @@
 package com.tiagotibaes.controller;
 
 
+import com.tiagotibaes.controller.dto.response.ClientResponseDTO;
 import com.tiagotibaes.controller.dto.resquest.ClientRequestDTO;
 import com.tiagotibaes.domain.entity.Client;
 import com.tiagotibaes.service.ClientService;
@@ -22,8 +23,8 @@ public class ClientController {
 
 
     @GetMapping("/{id}")
-    public Client searchClientById(@PathVariable Integer id) throws ResponseStatusException {
-        Optional<Client> clientId = clientService.getClientById(id);
+    public ClientResponseDTO searchClientById(@PathVariable Integer id) throws ResponseStatusException {
+        Optional<ClientResponseDTO> clientId = clientService.getClientById(id);
 
         return clientId
                 .orElseThrow(
@@ -33,7 +34,7 @@ public class ClientController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Integer saveClient(@RequestBody ClientRequestDTO clientRequestDTO) {
+    public ClientResponseDTO saveClient(@RequestBody ClientRequestDTO clientRequestDTO) {
         return clientService.createClient(clientRequestDTO);
     }
 

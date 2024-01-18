@@ -6,7 +6,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 
@@ -30,7 +29,6 @@ public class Client implements Serializable {
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private Set<Demand> demands;
 
-    /* Incluir campos na migração do H2 para MySQL */
     @Column(name = "birth_data")
     private LocalDate birthDate;
 
@@ -42,14 +40,8 @@ public class Client implements Serializable {
 
     //TODO: Quando migrar para MySQL, verificar se há esta implementação
     //Listar os documentos do cliente
-    @OneToMany(mappedBy= "client", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE},fetch = FetchType.LAZY)
-    private List<Document> documents;
+    @OneToMany(mappedBy= "client", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    private Set<Document> documents;
 
-    public Client(Integer id, String name, String cpf, LocalDate birthDate, List<Document> documents){
-        this.id = id;
-        this.name = name;
-        this.birthDate = birthDate;
-        this.documents = documents;
-    }
 
 }

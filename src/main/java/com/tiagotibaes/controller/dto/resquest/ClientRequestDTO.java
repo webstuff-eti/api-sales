@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -21,5 +22,5 @@ public class ClientRequestDTO {
     //@JsonFormat(pattern = "dd/MM/yyyy")
     private String birthDate;
 
-    private List<DocumentRequestDTO> documents;
+    private Set<DocumentRequestDTO> documents;
 }

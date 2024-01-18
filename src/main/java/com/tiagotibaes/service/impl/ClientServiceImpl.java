@@ -1,13 +1,17 @@
 package com.tiagotibaes.service.impl;
 
+
+import com.tiagotibaes.controller.dto.response.ClientResponseDTO;
 import com.tiagotibaes.controller.dto.resquest.ClientRequestDTO;
-import com.tiagotibaes.controller.dto.resquest.DocumentRequestDTO;
 import com.tiagotibaes.domain.entity.Client;
 import com.tiagotibaes.domain.entity.Document;
 import com.tiagotibaes.domain.enumerated.TypeDocument;
 import com.tiagotibaes.domain.repository.ClientRepository;
 import com.tiagotibaes.domain.repository.DocumentRepository;
+import com.tiagotibaes.exception.BusinessRuleException;
 import com.tiagotibaes.service.ClientService;
+import com.tiagotibaes.utils.converter.ConverterObjects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -15,9 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -28,81 +33,67 @@ public class ClientServiceImpl implements ClientService {
     @Autowired
     private DocumentRepository documentRepository;
 
+    @Autowired
+    private ConverterObjects converterObjects;
+
 
     @Override
     @Transactional
-    public Integer createClient(ClientRequestDTO dto) {
+    public ClientResponseDTO createClient(ClientRequestDTO clientRequestDTO) {
 
         Client client = Client.builder()
                               .includedDate(LocalDate.now())
                               .updateDate(LocalDate.now())
-                              .name(dto.getName())
-                              .birthDate(LocalDate.parse(dto.getBirthDate()))
+                              .name(clientRequestDTO.getName())
+                              .birthDate(LocalDate.parse(clientRequestDTO.getBirthDate()))
                               .build();
 
         Client clientSaved = clientRepository.save(client);
+        Set<Document> documentList = this.converterDocuments(clientSaved, clientRequestDTO);
 
-        Document document = new Document();
-        List<Document> documents = new ArrayList<>();
+        documentRepository.saveAll(documentList);
+        client.setDocuments(documentList);
 
-        List<DocumentRequestDTO> documentRequestDTOS = dto.getDocuments();
+        return converterObjects.converterObjectToObject(client, ClientResponseDTO.class);
+    }
 
-        for (DocumentRequestDTO d: documentRequestDTOS) {
-
-            if(d != null){
-                documents.add(document);
-            }
-
-            if(TypeDocument.CNH.getValue().equals(d.getTypeDocument())){
-                document.setTypeDocument(TypeDocument.CNH);
-            }else if(TypeDocument.RG.getValue().equals(d.getTypeDocument())){
-                document.setTypeDocument(TypeDocument.RG);
-            }else if(TypeDocument.CNPJ.getValue().equals(d.getTypeDocument())){
-                document.setTypeDocument(TypeDocument.CNPJ);
-            }else if(TypeDocument.CPF.getValue().equals(d.getTypeDocument())){
-                document.setTypeDocument(TypeDocument.CPF);
-            }
-
-            document.setClient(clientSaved);
-            document.setIncludedDate(LocalDate.now());
-            document.setUpdateDate(LocalDate.now());
-            document.setIdentificationNumber(d.getIdentificationNumber());
-
-
+    private Set<Document> converterDocuments(Client clientSaved, ClientRequestDTO clientRequestDTO){
+        if(clientRequestDTO.getDocuments().isEmpty()){
+            throw new BusinessRuleException("Não é permitido cadastrar cliente sem ao menos um documento");
         }
 
-        /*
-        dto.getDocuments().stream().forEach( d -> {
 
-            if(TypeDocument.CNH.getValue().equals(d.getTypeDocument())){
-                document.setTypeDocument(TypeDocument.CNH);
-            }else if(TypeDocument.RG.getValue().equals(d.getTypeDocument())){
-                document.setTypeDocument(TypeDocument.RG);
-            }else if(TypeDocument.CNPJ.getValue().equals(d.getTypeDocument())){
-                document.setTypeDocument(TypeDocument.CNPJ);
-            }else if(TypeDocument.CPF.getValue().equals(d.getTypeDocument())){
-                document.setTypeDocument(TypeDocument.CPF);
-            }
 
-            document.setClient(clientSaved);
-            document.setIncludedDate(LocalDate.now());
-            document.setUpdateDate(LocalDate.now());
-            document.setIdentificationNumber(d.getIdentificationNumber());
+        return clientRequestDTO.getDocuments()
+                .stream()
+                .map( dto -> {
 
-            documents.add(document);
-        });
-        */
+                    Document document = new Document();
 
-        documentRepository.saveAll(documents);
+                    if(TypeDocument.CNH.getValue().equals(dto.getTypeDocument())){
+                        document.setTypeDocument(TypeDocument.CNH);
+                    }else if(TypeDocument.RG.getValue().equals(dto.getTypeDocument())){
+                        document.setTypeDocument(TypeDocument.RG);
+                    }else if(TypeDocument.CNPJ.getValue().equals(dto.getTypeDocument())){
+                        document.setTypeDocument(TypeDocument.CNPJ);
+                    }else if(TypeDocument.CPF.getValue().equals(dto.getTypeDocument())){
+                        document.setTypeDocument(TypeDocument.CPF);
+                    }
 
-        client.setDocuments(documents);
+                    document.setClient(clientSaved);
+                    document.setIncludedDate(LocalDate.now());
+                    document.setUpdateDate(LocalDate.now());
+                    document.setIdentificationNumber(dto.getIdentificationNumber());
 
-        return client.getId();
+                    return document;
+                }).collect(Collectors.toSet());
+
     }
 
     @Override
-    public Optional<Client> getClientById(Integer id) {
-        return clientRepository.findById(id);
+    public Optional<ClientResponseDTO> getClientById(Integer id) {
+        Optional<Client> client = clientRepository.findById(id);
+        return Optional.of(converterObjects.converterObjectToObject(client.get(), ClientResponseDTO.class));
     }
 
     @Override

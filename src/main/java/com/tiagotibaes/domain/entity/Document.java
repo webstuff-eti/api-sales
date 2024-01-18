@@ -14,7 +14,9 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+//@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "document")
 public class Document implements Serializable {

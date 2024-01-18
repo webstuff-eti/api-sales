@@ -11,24 +11,24 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ConverterObjects {
 
-    private ModelMapper mp;
+    private final ModelMapper mapper;
 
     public ConverterObjects() {
-        this.mp = new ModelMapper();
+        this.mapper = new ModelMapper();
     }
 
     public <S, T> List<T> converterListOfObjectsToListOfObjects(List<S> source, Class<T> outPutClass) {
         if (null == source || source.isEmpty()) {
             throw new RuntimeException("The list cannot be empty");
         }
-        return source.stream().map(entity -> mp.map(entity, outPutClass)).collect(Collectors.toList());
+        return source.stream().map(entity -> mapper.map(entity, outPutClass)).collect(Collectors.toList());
     }
 
     public <S, T> T converterObjectToObject(S source, Class<T> outPutClass) {
         if (null == source) {
             throw new RuntimeException("Source cannot be null");
         }
-        return mp.map(source, outPutClass);
+        return mapper.map(source, outPutClass);
     }
 
 }
