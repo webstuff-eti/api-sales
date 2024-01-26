@@ -1,24 +1,23 @@
 package com.tiagotibaes.controller.dto.response;
 
-import com.tiagotibaes.domain.entity.Client;
-import com.tiagotibaes.domain.entity.DemandItem;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 @Builder
-@Setter
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class DemandResponseDTO {
 
-    private Integer id;
-    private String description;
-    private LocalDate dataDemand;
+    private Integer idDemand;
+    List<DocumentResponseDTO> documents;
+    private String nameClient;
     private BigDecimal total;
-    private Client client;
-    private List<DemandItemResponseDTO> demandItemResponseDTOS;
+    private LocalDate dataDemand;
+    private List<DemandItemResponseDTO> items;
 }

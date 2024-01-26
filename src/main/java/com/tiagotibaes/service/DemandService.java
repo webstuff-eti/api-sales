@@ -10,11 +10,8 @@ import java.util.Optional;
 public interface DemandService {
 
     public Integer createDemand(DemandRequestDTO dto);
-    public Optional<Demand> getDemandById(Integer id);
-
+    public Optional<DemandResponseDTO> getDemandById(Integer idDemand);
     public boolean deleteDemandById(Integer id);
-
     public Demand updateDemandById(Integer id, DemandRequestDTO demandRequestDTO);
-
     public List<Demand> findListDemandsByFilter(DemandRequestDTO demandRequestDTO);
 }

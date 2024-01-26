@@ -1,4 +1,4 @@
-package com.tiagotibaes.utils.converter;
+package com.tiagotibaes.utils.converters;
 
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;

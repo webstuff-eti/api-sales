@@ -36,7 +36,7 @@ public class Demand implements Serializable {
     private BigDecimal total;
 
     //Listar os itens do pedido
-    @OneToMany(mappedBy= "demand")
+    @OneToMany(mappedBy = "demand")
     private List<DemandItem> demandItems;
 
 }

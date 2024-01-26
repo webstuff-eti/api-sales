@@ -10,8 +10,8 @@ import com.tiagotibaes.domain.repository.ClientRepository;
 import com.tiagotibaes.domain.repository.DocumentRepository;
 import com.tiagotibaes.exception.BusinessRuleException;
 import com.tiagotibaes.service.ClientService;
-import com.tiagotibaes.utils.converter.ConverterObjects;
 
+import com.tiagotibaes.utils.converters.ConverterObjects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;

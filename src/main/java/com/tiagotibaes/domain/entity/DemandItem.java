@@ -3,7 +3,6 @@ package com.tiagotibaes.domain.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,14 +21,14 @@ public class DemandItem implements Serializable {
 
     /*
     Relacionamento: Muitos itens pedidos para um pedido
-     */
+    */
     @ManyToOne
     @JoinColumn(name = "demand_id")
     private Demand demand;
 
     /*
     Relacionamento: Muitos itens de um pedido para um produto
-     */
+    */
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;

@@ -9,12 +9,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Set;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-//@Data
 @Getter
 @Setter
 @Entity
@@ -41,10 +39,6 @@ public class Document implements Serializable {
     @Column(name = "update_Date")
     private LocalDate updateDate;
 
-    //TODO: Inserir impl abaixo após migrar para MySQL
-    /*
-    Relacionamento: Muitos Documentos para um cliente
-     */
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;

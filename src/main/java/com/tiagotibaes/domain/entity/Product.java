@@ -17,7 +17,6 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
-
     @Column(name = "description")
     private String description;
 

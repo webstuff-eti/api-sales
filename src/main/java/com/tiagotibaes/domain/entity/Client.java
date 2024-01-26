@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
-
 @Builder
 @Data
 @AllArgsConstructor
@@ -38,10 +37,7 @@ public class Client implements Serializable {
     @Column(name = "update_date")
     private LocalDate updateDate;
 
-    //TODO: Quando migrar para MySQL, verificar se há esta implementação
-    //Listar os documentos do cliente
-    @OneToMany(mappedBy= "client", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy= "client", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private Set<Document> documents;
-
 
 }
